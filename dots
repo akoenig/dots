@@ -1,31 +1,9 @@
 #!/usr/bin/env bash
 
-source lib/profile
+DOTS_BIN_DIR=$(pwd)
 source lib/output
 source lib/rc
 source commands/install
-source commands/uninstall
-
-# TODO: Unset all rc configuration when running the user-land scripts
-# TODO: Unset all commands
-
-install() {
-   # TODO: Check if there are repositories (if so, then uninstall first)
-
-    if [ $($DOTS_RC_HAS_DOTS) -eq 1 ]; then
-        uninstall
-    fi
-
-    $DOTS_COMMANDS_INSTALL
-}
-
-uninstall() {
-    $DOTS_COMMANDS_UNINSTALL
-}
-
-help() {
-    $DOTS_OUTPUT_INFO "help"
-}
 
 #
 # Do something depending on the passed arguments.
@@ -38,13 +16,13 @@ if [ $# -eq 0 ]
     else
         case "$1" in
             "--help" | "-h" | "help")
-                help
+                _dots_command_help
                 ;;
             "install")
-                install
+                _dots_command_install $2
                 ;;
             *)
-                $DOTS_OUTPUT_FAIL "Fatal Error: Unknown argument '$1'. For help regarding the dotfiles CLI execute 'dots help'."
+                dots_output_fail "Fatal Error: Unknown argument '$1'. For help regarding the dotfiles CLI execute 'dots help'."
 
                 exit 1
                 ;;

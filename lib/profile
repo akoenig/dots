@@ -11,12 +11,13 @@
 #
 
 #
+# @private
+#
 # Detects the path to the profile configuration
 #
 # @returns string The path to the profile
 #
-function getProfile() {
-
+_dots_get_profile() {
     local SHELLTYPE="$(basename /$SHELL)"
 
     if [ $SHELLTYPE = "bash" ]; then
@@ -47,12 +48,28 @@ function getProfile() {
 }
 
 #
+# @private
+#
+# Removes the actual lines from the given profile configuration.
+# Note: This function is necessary because `sed` awaits the params as `$1` and `$2`
+#
+# @param number from The start line
+# @param number to The end line
+# @param string file The path to the file from which the files should be removed
+#
+_dots_profile_remove_lines() {
+    local file=$3
+
+    sed --in-place "$1,$2d" $file
+}
+
+#
 # Adds a new section to the profile configuration.
 #
 # @param string name The section name (e.g. "NVM")
 # @param string configuration The actual configuration which should be written
 #
-function add() {
+dots_profile_add() {
     local name=$1
     local configuration=$2
 
@@ -72,32 +89,15 @@ EOF
 # @param string name The name of the section which should be removed
 #
 #
-function remove() {
+dots_profile_remove() {
     local name=$1
-    local profile=$(getProfile)
+    local profile=$(_dots_get_profile)
 
     # Get the line range of this section
     local from=$(grep -n "\#\[$name\]" $profile | cut -f1 -d:)
     local to=$(grep -n "\#\[\/$name\]" $profile | cut -f1 -d:)
 
     # Remove this line range from the profile configuration
-     [ -z "$from" ] && [ -z "$to" ] && [ -z "$profile" ] && $(removeLines $from $to $profile)
+     [ -z "$from" ] && [ -z "$to" ] && [ -z "$profile" ] && $(_dots_profile_remove_lines $from $to $profile)
 }
-
-#
-# Removes the actual lines from the given profile configuration.
-# Note: This function is necessary because `sed` awaits the params as `$1` and `$2`
-#
-# @param number from The start line
-# @param number to The end line
-# @param string file The path to the file from which the files should be removed
-#
-function removeLines() {
-    local file=$3
-
-    sed --in-place "$1,$2d" $file
-}
-
-DOTS_PROFILE_ADD=add
-DOTS_PROFILE_REMOVE=remove
 

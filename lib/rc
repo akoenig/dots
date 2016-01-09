@@ -11,20 +11,6 @@
 #
 
 DOTS_DIR=$HOME/.dots
-DOTS_RC=$HOME/.dotsrc
 
 [ ! -z "$DOTS_DIR" ] && mkdir -p $DOTS_DIR
-[ ! -s "$DOTS_RC" ] && touch $DOTS_RC 
-
-function hasDots() {
-    local counts=$(ls -l $DOTS_DIR | wc -l)
-
-    if [ $counts -gt 1 ]; then
-       echo 1;
-    else
-       echo 0;
-    fi
-}
-
-DOTS_RC_HAS_DOTS=hasDots
 

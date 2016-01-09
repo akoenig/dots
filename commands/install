@@ -10,12 +10,77 @@
 # @author André König <andre.koenig@posteo.de>
 #
 
-DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
-source "$DIR/../lib/output"
+source "$DOTS_BIN_DIR/lib/output"
 
-command_install() {
-   $(source "$DIR/../install.sh")
+_dots_command_install_clone() {
+    local wd=/tmp/dots/$(date +%s)
+
+    git clone $url $wd 2> /dev/null && cd $wd
+
+    echo $wd
 }
 
-DOTS_COMMANDS_INSTALL=command_install
+_dots_command_install_parse_manifest() {
+    local CONFIG_PATH=$1
+    local CONFIG_SYNTAX="^\s*#|^\s*$|^[a-zA-Z_]+='[^']*'$"
+
+    if egrep -q -v "${CONFIG_SYNTAX}" "$CONFIG_PATH"; then
+        echo "Error parsing dots manifest ${CONFIG_PATH}." >&2
+        echo "The following lines in the dots manifest do not fit the syntax:" >&2
+        egrep -vn "${CONFIG_SYNTAX}" "$CONFIG_PATH"
+        exit 5
+    fi
+
+    source "$CONFIG_PATH"
+}
+
+_dots_command_install() {
+    local url=$1
+
+    dots_output_info "Installing '$url' ..."
+
+    local repository=$(_dots_command_install_clone $url)
+
+    # parse the manifest
+    _dots_command_install_parse_manifest $repository/dots.manifest
+
+    # TODO: Check if the dots has already been installed
+
+    if [ -z "$name" ]; then
+        dots_output_fail "The dots manifest does not provide a proper name. Exiting."
+        exit 1
+    fi
+
+    if [ -d "$DOTS_DIR/$name" ]; then
+        dots_output_fail "'$name' is already installed. Uninstall it first. Exiting."
+        exit 1
+    fi
+
+    # Check if the dots has an `install.sh` ready
+    if [ ! -f "$repository/install.sh" ]; then
+        dots_output_fail "I'm sorry, but there is no \"install.sh\" available. Exiting."
+        exit 1
+    fi
+
+    if [ ! -f "$repository/uninstall.sh" ]; then
+        dots_output_fail "I'm sorry, but there is no \"uninstall.sh\" available. Exiting."
+        exit 1
+    fi
+ 
+    mv $repository $DOTS_DIR/$name/
+
+    dots_output_info "Executing \"install.sh\" ..."
+    source $DOTS_DIR/$name/install.sh
+
+    # TODO: Check error code. If error -> remove from $DOTS
+
+
+#
+# 1. Check if repository name is `<name>.dots` or `<name>.dots.git`
+# 2. Check if the respective dot has already been installed (if so -> "Please uninstall first")
+# 3. Clone repository to temporary directory
+# 5. Move repo from temp dir to `$HOME/.dots`
+# 6. Execute `install.sh`
+#
+}
 
