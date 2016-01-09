@@ -1,0 +1,21 @@
+#
+# dots
+#
+# Copyright(c) 2016 André König <andre.koenig@posteo.de>
+# MIT Licensed
+#
+#
+
+#
+# @author André König <andre.koenig@posteo.de>
+#
+
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+source "$DIR/../lib/output"
+
+command_install() {
+   $(source "$DIR/../install.sh")
+}
+
+DOTS_COMMANDS_INSTALL=command_install
+
