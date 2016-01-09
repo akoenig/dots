@@ -1,0 +1,38 @@
+#
+# dots
+#
+# Copyright(c) 2016 André König <andre.koenig@posteo.de>
+# MIT Licensed
+#
+#
+
+#
+# @author André König <andre.koenig@posteo.de>
+#
+
+success () {
+    printf "[ \033[00;32mOK\033[0m ] $1\n"
+}
+
+finished () {
+    printf "[ \033[00;32mFINISHED\033[0m ] $1\n"
+}
+
+info () {
+    printf "[\033[1;36m .. \033[0m] $1\n"
+}
+
+warn () {
+    printf "[\033[0;33mWARN\033[0m] $1\n"
+}
+
+fail () {
+    printf "[\033[0;31mFAIL\033[0m] $1\n"
+}
+
+DOTS_OUTPUT_SUCCESS=success
+DOTS_OUTPUT_FINISHED=finished
+DOTS_OUTPUT_INFO=info
+DOTS_OUTPUT_WARN=warn
+DOTS_OUTPUT_FAIL=fail
+
