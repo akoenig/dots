@@ -12,6 +12,15 @@
 
 source "$DOTS_BIN_DIR/lib/output"
 
+#
+# @private
+#
+# Clones the remote repository to a temp location
+#
+# @param url string The URL of the repository which should be cloned
+#
+# @returns string The location of the cloned local repository
+#
 _dots_command_install_clone() {
     local wd=/tmp/dots/$(date +%s)
 
@@ -20,6 +29,13 @@ _dots_command_install_clone() {
     echo $wd
 }
 
+#
+# @private
+#
+# Parses the manifest from a given dots repository
+#
+# @param string The path to the respective dots repo
+#
 _dots_command_install_parse_manifest() {
     local CONFIG_PATH=$1
     local CONFIG_SYNTAX="^\s*#|^\s*$|^[a-zA-Z_]+='[^']*'$"
@@ -68,19 +84,12 @@ _dots_command_install() {
     fi
  
     mv $repository $DOTS_DIR/$name/
+    rm -rf $repository
 
     dots_output_info "Executing \"install.sh\" ..."
     source $DOTS_DIR/$name/install.sh
 
     # TODO: Check error code. If error -> remove from $DOTS
 
-
-#
-# 1. Check if repository name is `<name>.dots` or `<name>.dots.git`
-# 2. Check if the respective dot has already been installed (if so -> "Please uninstall first")
-# 3. Clone repository to temporary directory
-# 5. Move repo from temp dir to `$HOME/.dots`
-# 6. Execute `install.sh`
-#
 }
 
