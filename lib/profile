@@ -1,0 +1,103 @@
+#
+# dots
+#
+# Copyright(c) 2016 André König <andre.koenig@posteo.de>
+# MIT Licensed
+#
+#
+
+#
+# @author André König <andre.koenig@posteo.de>
+#
+
+#
+# Detects the path to the profile configuration
+#
+# @returns string The path to the profile
+#
+function getProfile() {
+
+    local SHELLTYPE="$(basename /$SHELL)"
+
+    if [ $SHELLTYPE = "bash" ]; then
+        if [ -f "$HOME/.bashrc" ]; then
+            local PROFILE_CONFIGURATION="$HOME/.bashrc"
+        elif [ -f "$HOME/.bash_profile" ]; then
+            local PROFILE_CONFIGURATION="$HOME/.bash_profile"
+        fi
+        elif [ $SHELLTYPE = "zsh" ]; then
+            local PROFILE_CONFIGURATION="$HOME/.zshrc"
+    fi
+
+    if [ -z $PROFILE_CONFIGURATION ]; then
+        if [ -f "$PROFILE" ]; then
+            local PROFILE_CONFIGURATION="$PROFILE"
+        elif [ -f "$HOME/.profile" ]; then
+            local PROFILE_CONFIGURATION="$HOME/.profile"
+        elif [ -f "$HOME/.bashrc" ]; then
+            local PROFILE_CONFIGURATION="$HOME/.bashrc"
+        elif [ -f "$HOME/.bash_profile" ]; then
+            local PROFILE_CONFIGURATION="$HOME/.bash_profile"
+        elif [ -f "$HOME/.zshrc" ]; then
+            local PROFILE_CONFIGURATION="$HOME/.zshrc"
+        fi
+    fi
+
+    echo $PROFILE_CONFIGURATION
+}
+
+#
+# Adds a new section to the profile configuration.
+#
+# @param string name The section name (e.g. "NVM")
+# @param string configuration The actual configuration which should be written
+#
+function add() {
+    local name=$1
+    local configuration=$2
+
+    local profile=$(getProfile)
+
+    cat << EOF >> $profile
+
+#[$name]
+$configuration
+#[/$name]
+EOF
+}
+
+#
+# Removes a given section from the profile configuration
+#
+# @param string name The name of the section which should be removed
+#
+#
+function remove() {
+    local name=$1
+    local profile=$(getProfile)
+
+    # Get the line range of this section
+    local from=$(grep -n "\#\[$name\]" $profile | cut -f1 -d:)
+    local to=$(grep -n "\#\[\/$name\]" $profile | cut -f1 -d:)
+
+    # Remove this line range from the profile configuration
+     [ -z "$from" ] && [ -z "$to" ] && [ -z "$profile" ] && $(removeLines $from $to $profile)
+}
+
+#
+# Removes the actual lines from the given profile configuration.
+# Note: This function is necessary because `sed` awaits the params as `$1` and `$2`
+#
+# @param number from The start line
+# @param number to The end line
+# @param string file The path to the file from which the files should be removed
+#
+function removeLines() {
+    local file=$3
+
+    sed --in-place "$1,$2d" $file
+}
+
+DOTS_PROFILE_ADD=add
+DOTS_PROFILE_REMOVE=remove
+
