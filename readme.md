@@ -153,6 +153,27 @@ Helper function for printing a `warn` message to stdout.
 
 Helper function for printing a `fail` message to stdout.
 
+## FAQ
+
+### Wait, I have to remember all the separated repositories then?
+
+No. You can still create a repository, called `dotfiles`. The main differences would be that you don't put your actual `dotfiles` in there but only a file containing all the `dots repositories` you want to use, like
+
+```sh
+git@github.com:akoenig/aliases.dots
+git@github.com:<another-user0>/<another-dots-repo0>
+git@github.com:<another-user1>/<another-dots-repo1>
+git@github.com:<another-user2>/<another-dots-repo2>
+```
+
+You can grab this file (via GitHub raw content) and pipe it to the `dots CLI`:
+
+```sh
+curl <url-to-the-file> | while read -r repo; do dots install "$repo"; done
+```
+
+You don't even need a full-fledged GitHub repository for that, [GitHub Gist](https://gist.github.com) got you covered as well.
+
 ## License
 
 MIT © [André König](http://andrekoenig.info)
