@@ -92,6 +92,59 @@ Lists all currently installed dots repositories.
 
 ## Writing own `dots`
 
+Having a dotfiles manager is a nice thing, but how to write own `dots repositories` this manager can consume? It's easy. Follow along.
+
+First of all you have to setup a new git repository and create a file, called `dots.manifest`, in it. I know what you might think: "Wohaa! Yet another manifest definition!1one". No worries, this one is just a two-liner. An example:
+
+```sh
+name='the-name-of-your-dots-repo',
+author='First name Last name <email-address>'
+```
+
+That's all, I promise.
+
+The next step is to create an install script, called `install.sh`, and an uninstall script, the `uninstall.sh`. Those scripts will be executed by `dots` when installing/uninstalling your dots repository. Please make sure that you execute the steps which are necessary to perform the respective task.
+
+### API
+
+`dots` exposes an API which is available within your `install.sh` and `uninstall.sh`..
+
+#### `$SELF`
+
+An environment variable which contains the path to your `dots repository`. If you want to access files within your repository you would use this variable within you `install.sh` / `uninstall.sh` (e.g. `$SELF/a-file`)
+
+#### `dots_profile_add`
+
+Provides an interface for inserting instructions to your profile (e.g. `.zshrc`, `.bashrc`, etc.).
+
+```sh
+dots_profile_add "source $HOME/aliases"
+```
+
+Please note that there is no "remove" equivalent. You don't have to worry about removing the written statements. `dots` will do this for you in the `uninstall` step automatically.
+
+**Important note:** Please make sure that you batch all your statements you want to write to the profile and call this function only once within your `install.sh`.
+
+#### `dots_output_success`
+
+Helper function for printing a `success` message to stdout.
+
+#### `dots_output_finished`
+
+Helper function for printing a `finished` message to stdout.
+
+#### `dots_output_info`
+
+Helper function for printing a `info` message to stdout.
+
+#### `dots_output_warn`
+
+Helper function for printing a `warn` message to stdout.
+
+#### `dots_output_fail`
+
+Helper function for printing a `fail` message to stdout.
+
 ## License
 
 MIT © [André König](http://andrekoenig.info)
