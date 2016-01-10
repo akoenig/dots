@@ -97,6 +97,7 @@ Lists all currently installed dots repositories.
 This is a list of `dots repositories` that have been spotted in the wild. [Let me know](https://github.com/akoenig/dots/issues/new), if you've seen one as well. I will add it here.
 
   * [akoenig/aliases.dots](https://github.com/akoenig/aliases.dots)
+  * [akoenig/node.dots](https://github.com/akoenig/node.dots)
 
 ## Writing own `dots`
 
