@@ -21,6 +21,7 @@ _dots_command_help() {
   install <repository>  Installs the given dots
   update <dots>         Updates the given dots repository
   uninstall <dots>      Uninstalls the given dots repository
+  ls					Lists all installed dots repositories
   help                  Prints this help
 
   --
