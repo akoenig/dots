@@ -46,7 +46,7 @@ _dots_command_install_parse_manifest() {
         echo "Error parsing dots manifest ${CONFIG_PATH}." >&2
         echo "The following lines in the dots manifest do not fit the syntax:" >&2
         egrep -vn "${CONFIG_SYNTAX}" "$CONFIG_PATH"
-        exit 5
+        return
     fi
 
     source "$CONFIG_PATH"
