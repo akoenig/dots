@@ -10,7 +10,7 @@ Wouldn't it be cool to pick only the dotfiles I really want? That is where `dots
 
 ## Installation
 
-Convinced to give `dots` a try? The installation is as easy as managing your personal dotfile collection. There are two ways for installing `dots`:
+Convinced to give `dots` a try? The installation is as easy as managing your personal dotfile collection. There are two ways of installing `dots`:
 
 ### Via install script
 
@@ -74,7 +74,7 @@ Sync a respective local `dots repository` with the remote one.
 dots update aliases
 ```
 
-This would update the `aliases` shown in the example before..
+This would update the `aliases` shown in the example before.
 
 ### `uninstall <dots>`
 
@@ -109,15 +109,15 @@ author='First name Last name <email-address>'
 
 That's all, I promise.
 
-The next step is to create an install script, called `install.sh`, and an uninstall script, the `uninstall.sh`. Those scripts will be executed by `dots` when installing/uninstalling your dots repository. Please make sure that you execute the steps which are necessary to perform the respective task.
+The next step is to create an install script, called `install.sh`, and an uninstall script, the `uninstall.sh`. Those scripts will be executed by `dots` when installing/uninstalling your dots repository. They should contain the logic that is necessary to install or uninstall this particular `dots repository`.
 
 ### API
 
-`dots` exposes an API which is available within your `install.sh` and `uninstall.sh`..
+`dots` exposes an API which is available within your `install.sh` and `uninstall.sh`.
 
 #### `$SELF`
 
-An environment variable which contains the path to your `dots repository`. If you want to access files within your repository you would use this variable within you `install.sh` / `uninstall.sh` (e.g. `$SELF/a-file`)
+An environment variable which contains the path to your `dots repository`. If you want to access files within your repository you would use this variable in the `install.sh` / `uninstall.sh` (e.g. `$SELF/a-file`).
 
 #### `dots_profile_add`
 
@@ -127,7 +127,7 @@ Provides an interface for inserting instructions to your profile (e.g. `.zshrc`,
 dots_profile_add "source $HOME/aliases"
 ```
 
-Please note that there is no "remove" equivalent. You don't have to worry about removing the written statements. `dots` will do this for you in the `uninstall` step automatically.
+Please note that there is no "remove" equivalent. You don't have to worry about removing the written statements. `dots` will do this for you automatically in the `uninstall` step.
 
 **Important note:** Please make sure that you batch all your statements you want to write to the profile and call this function only once within your `install.sh`.
 
