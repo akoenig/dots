@@ -11,6 +11,7 @@
 #
 
 source "$DOTS_BIN_DIR/lib/output"
+source "$DOTS_BIN_DIR/lib/profile"
 
 #
 # @private
@@ -96,6 +97,8 @@ _dots_command_install() {
         dots_output_fail "I'm sorry, but there is no \"uninstall.sh\" available. Exiting."
         exit 1
     fi
+
+	CURRENT_DOT=$name
 
     dots_output_info "Executing \"install.sh\" ..."
     source $repository/install.sh

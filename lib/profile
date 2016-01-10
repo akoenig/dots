@@ -66,14 +66,15 @@ _dots_profile_remove_lines() {
 #
 # Adds a new section to the profile configuration.
 #
-# @param string name The section name (e.g. "NVM")
+# Important: Please note that $CURRENT_DOT has to be set
+#
 # @param string configuration The actual configuration which should be written
 #
 dots_profile_add() {
-    local name=$1
-    local configuration=$2
+    local name=$CURRENT_DOT
+    local configuration=$1
 
-    local profile=$(getProfile)
+    local profile=$(_dots_get_profile)
 
     cat << EOF >> $profile
 
@@ -86,11 +87,11 @@ EOF
 #
 # Removes a given section from the profile configuration
 #
-# @param string name The name of the section which should be removed
+# Important: Please note that $CURRENT_DOT has to be set
 #
 #
-dots_profile_remove() {
-    local name=$1
+_dots_profile_remove() {
+    local name=$CURRENT_DOT
     local profile=$(_dots_get_profile)
 
     # Get the line range of this section
@@ -100,4 +101,3 @@ dots_profile_remove() {
     # Remove this line range from the profile configuration
      [ -z "$from" ] && [ -z "$to" ] && [ -z "$profile" ] && $(_dots_profile_remove_lines $from $to $profile)
 }
-
