@@ -24,11 +24,13 @@ _dots_command_uninstall() {
 	# Remove all configuration from the profile
 	_dots_profile_remove $name
 
+	SELF=$DOTS_DIR/$name
 	source "$DOTS_DIR/$name/uninstall.sh"
 
 	rm -rf $DOTS_DIR/$name
+	SELF=""
 
-	dots_output_finished "Uninstalled \"$name\"!"
+	dots_output_info "Uninstalled \"$name\"!"
 
-	exit 0
+	dots_output_finished "All done. Please restart your shell session."
 }

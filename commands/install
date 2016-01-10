@@ -23,13 +23,10 @@ source "$DOTS_BIN_DIR/lib/profile"
 # @returns string The location of the cloned local repository
 #
 _dots_command_install_clone() {
-    local wd=/tmp/dots/$(date +%s)
+	local url=$1
+    local wd=/tmp/dots/$(date +%s%N)
 
     git clone $url $wd 2> /dev/null
-
-	if [ $? -eq 128 ]; then
-		wd=""
-	fi
 
     echo $wd
 }
@@ -69,7 +66,7 @@ _dots_command_install() {
 
     local repository=$(_dots_command_install_clone $url)
 
-	if [ -z "$repository" ]; then
+	if [ ! -d "$repository" ]; then
 		dots_output_fail "This dots repository does not exist. Exiting.";
 		exit 1
 	fi;
@@ -100,17 +97,20 @@ _dots_command_install() {
 
 	# Set the global scope to the name of the current dot
 	CURRENT_DOT=$name
+	SELF=$repository
 
     dots_output_info "Executing \"install.sh\" ..."
     source $repository/install.sh
 
     # TODO: Check error code. If error -> remove from $DOTS
 
+	CURRENT_DOT=""
+	SELF=""
+
     mv $repository $DOTS_DIR/$name/
     rm -rf $repository
 
-	CURRENT_DOT=""
+	dots_output_info "Installed \"$name\"!"
 
-	dots_output_finished "Installed \"$name\"!"
-	exit 0
+	dots_output_finished "All done. Please restart your shell session."
 }

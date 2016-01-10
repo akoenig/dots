@@ -98,5 +98,5 @@ _dots_profile_remove() {
     local to=$(grep -n "\#\[\/$name\]" $profile | cut -f1 -d:)
 
     # Remove this line range from the profile configuration
-    $(_dots_profile_remove_lines $from $to $profile)
+    _dots_profile_remove_lines $from $to $profile
 }

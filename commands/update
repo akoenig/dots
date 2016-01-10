@@ -1,0 +1,29 @@
+#
+# dots
+#
+# Copyright(c) 2016 André König <andre.koenig@posteo.de>
+# MIT Licensed
+#
+#
+
+#
+# @author André König <andre.koenig@posteo.de>
+#
+
+source "$DOTS_BIN_DIR/lib/output"
+
+_dots_command_update() {
+	local name=$1
+
+	if [ ! -d "$DOTS_DIR/$name" ]; then
+		dots_output_fail "Unable to update \"$name\". It is not installed. Exiting."
+		exit 1
+	fi
+
+	# get remote url of the respective dots repository
+	url=$(cd $DOTS_DIR/$name && git config --get remote.origin.url)
+
+	_dots_command_uninstall $name
+
+	_dots_command_install $url
+}

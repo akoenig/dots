@@ -6,6 +6,7 @@ source lib/rc
 source commands/install
 source commands/uninstall
 source commands/list
+source commands/update
 
 #
 # Do something depending on the passed arguments.
@@ -25,6 +26,9 @@ if [ $# -eq 0 ]
                 ;;
 			"uninstall")
 				_dots_command_uninstall $2
+				;;
+			"update")
+				_dots_command_update $2
 				;;
 			"ls" | "list")
 				_dots_command_list
