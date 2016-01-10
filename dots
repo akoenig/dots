@@ -5,6 +5,7 @@ source lib/output
 source lib/rc
 source commands/install
 source commands/uninstall
+source commands/list
 
 #
 # Do something depending on the passed arguments.
@@ -24,6 +25,9 @@ if [ $# -eq 0 ]
                 ;;
 			"uninstall")
 				_dots_command_uninstall $2
+				;;
+			"ls" | "list")
+				_dots_command_list
 				;;
             *)
                 dots_output_fail "Fatal Error: Unknown argument '$1'. For help regarding the dotfiles CLI execute 'dots help'."
