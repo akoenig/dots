@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 #
 # dots
 #
@@ -12,45 +10,43 @@
 # @author André König <andre.koenig@posteo.de>
 #
 
-DOTS_HOME=$(pwd)
+DOTS_HOME=$HOME/.dots
 
-source lib/output
-source lib/rc
+dots() {
+	source lib/output
+	source lib/rc
 
-source commands/install
-source commands/uninstall
-source commands/list
-source commands/update
-source commands/help
+	source commands/install
+	source commands/uninstall
+	source commands/list
+	source commands/update
+	source commands/help
 
-if [ $# -eq 0 ]
-    then
-        _dots_command_help
+	if [ $# -eq 0 ]
+	    then
+	        _dots_command_help
 
-        exit 1
-    else
-        case "$1" in
-            "--help" | "-h" | "help")
-                _dots_command_help
-                ;;
-            "install")
-                _dots_command_install $2
-                ;;
-			"uninstall")
-				_dots_command_uninstall $2
-				;;
-			"update")
-				_dots_command_update $2
-				;;
-			"ls" | "list")
-				_dots_command_list
-				;;
-            *)
-                dots_output_fail "Fatal Error: Unknown argument '$1'. For help regarding the dotfiles CLI execute 'dots help'."
-
-                exit 1
-                ;;
-        esac
-fi
-
-exit 0
+	        exit 1
+	    else
+	        case "$1" in
+	            "--help" | "-h" | "help")
+	                _dots_command_help
+	                ;;
+	            "install")
+	                _dots_command_install $2
+	                ;;
+				"uninstall")
+					_dots_command_uninstall $2
+					;;
+				"update")
+					_dots_command_update $2
+					;;
+				"ls" | "list")
+					_dots_command_list
+					;;
+	            *)
+	                dots_output_fail "Fatal Error: Unknown argument '$1'. For help regarding the dotfiles CLI execute 'dots help'."
+	                ;;
+	        esac
+	fi
+}

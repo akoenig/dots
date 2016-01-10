@@ -64,7 +64,7 @@ _dots_command_install() {
 
 	if [ -z $url ]; then
 		dots_output_fail "Please define the dots repository you want to install"
-		exit 1
+		return
 	fi
 
     dots_output_info "Installing '$url' ..."
@@ -73,7 +73,7 @@ _dots_command_install() {
 
 	if [ ! -d "$repository" ]; then
 		dots_output_fail "This dots repository does not exist. Exiting.";
-		exit 1
+		return
 	fi;
 
     # Parse the manifest
@@ -81,23 +81,23 @@ _dots_command_install() {
 
     if [ -z "$name" ]; then
         dots_output_fail "The dots manifest does not provide a proper name. Exiting."
-        exit 1
+        return
     fi
 
     if [ -d "$DOTS_DIR/$name" ]; then
         dots_output_fail "'$name' is already installed. Uninstall it first. Exiting."
-        exit 1
+        return
     fi
 
     # Check if the dots has an `install.sh` ready
     if [ ! -f "$repository/install.sh" ]; then
         dots_output_fail "I'm sorry, but there is no \"install.sh\" available. Exiting."
-        exit 1
+        return
     fi
 
     if [ ! -f "$repository/uninstall.sh" ]; then
         dots_output_fail "I'm sorry, but there is no \"uninstall.sh\" available. Exiting."
-        exit 1
+        return
     fi
 
 	# Set the global scope to the name of the current dot

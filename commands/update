@@ -17,12 +17,12 @@ _dots_command_update() {
 
 	if [ -z $name ]; then
 		dots_output_fail "Please define the name of the dots you want to update. Exiting."
-		exit 1
+		return
 	fi
 
 	if [ ! -d "$DOTS_DIR/$name" ]; then
 		dots_output_fail "Unable to update \"$name\". It is not installed. Exiting."
-		exit 1
+		return
 	fi
 
 	# get remote url of the respective dots repository
