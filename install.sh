@@ -32,7 +32,7 @@ else
 	source "$DOTS_HOME/lib/profile"
 
 	CURRENT_DOT=dots
-	dots_profile_add "echo '[ -f $DOTS_HOME/dots ] && source $DOTS_HOME/dots'"
+	dots_profile_add "[ -f $DOTS_HOME/dots ] && source $DOTS_HOME/dots"
 fi
 
 } # this ensures the entire script is downloaded #

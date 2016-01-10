@@ -10,7 +10,7 @@
 # @author André König <andre.koenig@posteo.de>
 #
 
-DOTS_HOME=$HOME/.dots
+export DOTS_HOME=$HOME/.dots
 
 dots() {
 	source lib/output
