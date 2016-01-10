@@ -8,6 +8,8 @@ We all love [dotfiles](https://dotfiles.github.io), don't we? There are excellen
 
 Wouldn't it be cool to pick only the dotfiles I really want? That is where `dots` comes to play. It encourages you to separate your dotfiles into small, encapsulated repositories. `dots` provides a management CLI with which you can install, update and uninstall your personal dotfile collection. With other words: `dots` is a dotfiles structure philosophy and a tool at once.  
 
+**Important:** Please note that `dots` is currently in _beta_.
+
 ## Installation
 
 Convinced to give `dots` a try? The installation is as easy as managing your personal dotfile collection. There are two ways of installing `dots`:
