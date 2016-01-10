@@ -62,6 +62,10 @@ _dots_command_install_parse_manifest() {
 _dots_command_install() {
     local url=$1
 
+	pwd=$(pwd)
+	# Jump into the home directory for preventing weird directory bugs
+	cd $HOME
+
 	if [ -z $url ]; then
 		dots_output_fail "Please define the dots repository you want to install"
 		return
@@ -116,6 +120,9 @@ _dots_command_install() {
     rm -rf $repository
 
 	dots_output_info "Installed \"$name\"!"
+
+	# Jump back into the previous working directory
+	cd $pwd
 
 	dots_output_finished "All done. Please restart your shell session."
 }
