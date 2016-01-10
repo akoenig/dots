@@ -90,6 +90,12 @@ This would uninstall the dots repository with the name `aliases`.
 
 Lists all currently installed dots repositories.
 
+### dots spotted in the wild
+
+This is a list of `dots repositories` that have been spotted in the wild. [Let me know](https://github.com/akoenig/dots/issues/new), if you've seen one as well. I will add it here.
+
+  * [akoenig/aliases.dots](https://github.com/akoenig/aliases.dots)
+
 ## Writing own `dots`
 
 Having a dotfiles manager is a nice thing, but how to write own `dots repositories` this manager can consume? It's easy. Follow along.
