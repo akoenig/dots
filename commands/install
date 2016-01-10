@@ -24,7 +24,11 @@ source "$DOTS_BIN_DIR/lib/output"
 _dots_command_install_clone() {
     local wd=/tmp/dots/$(date +%s)
 
-    git clone $url $wd 2> /dev/null && cd $wd
+    git clone $url $wd 2> /dev/null
+
+	if [ $? -eq 128 ]; then
+		wd=""
+	fi
 
     echo $wd
 }
@@ -34,7 +38,7 @@ _dots_command_install_clone() {
 #
 # Parses the manifest from a given dots repository
 #
-# @param string The path to the respective dots repo
+# @param string path The path to the respective dots repo
 #
 _dots_command_install_parse_manifest() {
     local CONFIG_PATH=$1
@@ -50,6 +54,13 @@ _dots_command_install_parse_manifest() {
     source "$CONFIG_PATH"
 }
 
+#
+# @private
+#
+# Install the given dots repository
+#
+# @param string url The url of the respective dots repository
+#
 _dots_command_install() {
     local url=$1
 
@@ -57,10 +68,13 @@ _dots_command_install() {
 
     local repository=$(_dots_command_install_clone $url)
 
-    # parse the manifest
-    _dots_command_install_parse_manifest $repository/dots.manifest
+	if [ -z "$repository" ]; then
+		dots_output_fail "This dots repository does not exist. Exiting.";
+		exit 1
+	fi;
 
-    # TODO: Check if the dots has already been installed
+    # Parse the manifest
+    _dots_command_install_parse_manifest $repository/dots.manifest
 
     if [ -z "$name" ]; then
         dots_output_fail "The dots manifest does not provide a proper name. Exiting."
@@ -82,14 +96,12 @@ _dots_command_install() {
         dots_output_fail "I'm sorry, but there is no \"uninstall.sh\" available. Exiting."
         exit 1
     fi
- 
-    mv $repository $DOTS_DIR/$name/
-    rm -rf $repository
 
     dots_output_info "Executing \"install.sh\" ..."
-    source $DOTS_DIR/$name/install.sh
+    source $repository/install.sh
 
     # TODO: Check error code. If error -> remove from $DOTS
 
+    mv $repository $DOTS_DIR/$name/
+    rm -rf $repository
 }
-
