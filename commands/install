@@ -62,6 +62,11 @@ _dots_command_install_parse_manifest() {
 _dots_command_install() {
     local url=$1
 
+	if [ -z $url ]; then
+		dots_output_fail "Please define the dots repository you want to install"
+		exit 1
+	fi
+
     dots_output_info "Installing '$url' ..."
 
     local repository=$(_dots_command_install_clone $url)

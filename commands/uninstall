@@ -16,6 +16,11 @@ source "$DOTS_BIN_DIR/lib/profile"
 _dots_command_uninstall() {
 	local name=$1
 
+	if [ -z $name ]; then
+		dots_output_fail "Please define the name of the dots you want to uninstall. Exiting."
+		exit 1
+	fi
+
 	if [ ! -d "$DOTS_DIR/$name" ]; then
 		dots_output_fail "The dots \"$name\" is not installed. Exiting."
 		exit 1
