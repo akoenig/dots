@@ -1,0 +1,34 @@
+#
+# dots
+#
+# Copyright(c) 2016 André König <andre.koenig@posteo.de>
+# MIT Licensed
+#
+#
+
+#
+# @author André König <andre.koenig@posteo.de>
+#
+
+source "$DOTS_BIN_DIR/lib/output"
+source "$DOTS_BIN_DIR/lib/profile"
+
+_dots_command_uninstall() {
+	local name=$1
+
+	if [ ! -d "$DOTS_DIR/$name" ]; then
+		dots_output_fail "The dots \"$name\" is not installed. Exiting."
+		exit 1
+	fi
+
+	# Remove all configuration from the profile
+	_dots_profile_remove $name
+
+	source "$DOTS_DIR/$name/uninstall.sh"
+
+	rm -rf $DOTS_DIR/$name
+
+	dots_output_finished "Uninstalled \"$name\"!"
+
+	exit 0
+}

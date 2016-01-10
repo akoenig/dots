@@ -4,6 +4,7 @@ DOTS_BIN_DIR=$(pwd)
 source lib/output
 source lib/rc
 source commands/install
+source commands/uninstall
 
 #
 # Do something depending on the passed arguments.
@@ -21,6 +22,9 @@ if [ $# -eq 0 ]
             "install")
                 _dots_command_install $2
                 ;;
+			"uninstall")
+				_dots_command_uninstall $2
+				;;
             *)
                 dots_output_fail "Fatal Error: Unknown argument '$1'. For help regarding the dotfiles CLI execute 'dots help'."
 
@@ -30,4 +34,3 @@ if [ $# -eq 0 ]
 fi
 
 exit 0
-

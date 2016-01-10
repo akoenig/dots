@@ -77,7 +77,6 @@ dots_profile_add() {
     local profile=$(_dots_get_profile)
 
     cat << EOF >> $profile
-
 #[$name]
 $configuration
 #[/$name]
@@ -87,11 +86,11 @@ EOF
 #
 # Removes a given section from the profile configuration
 #
-# Important: Please note that $CURRENT_DOT has to be set
+# @param name string The name of the part which should be removed
 #
 #
 _dots_profile_remove() {
-    local name=$CURRENT_DOT
+    local name=$1
     local profile=$(_dots_get_profile)
 
     # Get the line range of this section
@@ -99,5 +98,5 @@ _dots_profile_remove() {
     local to=$(grep -n "\#\[\/$name\]" $profile | cut -f1 -d:)
 
     # Remove this line range from the profile configuration
-     [ -z "$from" ] && [ -z "$to" ] && [ -z "$profile" ] && $(_dots_profile_remove_lines $from $to $profile)
+    $(_dots_profile_remove_lines $from $to $profile)
 }
