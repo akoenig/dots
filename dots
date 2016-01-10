@@ -13,14 +13,14 @@
 export DOTS_HOME=$HOME/.dots
 
 dots() {
-	source lib/output
-	source lib/rc
+	source "$DOTS_HOME/lib/output"
+	source "$DOTS_HOME/lib/rc"
 
-	source commands/install
-	source commands/uninstall
-	source commands/list
-	source commands/update
-	source commands/help
+	source "$DOTS_HOME/commands/install"
+	source "$DOTS_HOME/commands/uninstall"
+	source "$DOTS_HOME/commands/list"
+	source "$DOTS_HOME/commands/update"
+	source "$DOTS_HOME/commands/help"
 
 	if [ $# -eq 0 ]
 	    then
