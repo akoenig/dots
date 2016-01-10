@@ -10,7 +10,6 @@
 # @author André König <andre.koenig@posteo.de>
 #
 
-DOTS_DIR=$HOME/.dots
+DOTS_DIR=$DOTS_HOME/.dots
 
 [ ! -z "$DOTS_DIR" ] && mkdir -p $DOTS_DIR
-

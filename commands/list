@@ -10,7 +10,7 @@
 # @author André König <andre.koenig@posteo.de>
 #
 
-source "$DOTS_BIN_DIR/lib/output"
+source "$DOTS_HOME/lib/output"
 
 _dots_command_list() {
 	local count=$(ls -1 $DOTS_DIR | wc -l)

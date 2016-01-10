@@ -1,19 +1,31 @@
 #!/usr/bin/env bash
 
-DOTS_BIN_DIR=$(pwd)
+#
+# dots
+#
+# Copyright(c) 2016 André König <andre.koenig@posteo.de>
+# MIT Licensed
+#
+#
+
+#
+# @author André König <andre.koenig@posteo.de>
+#
+
+DOTS_HOME=$(pwd)
+
 source lib/output
 source lib/rc
+
 source commands/install
 source commands/uninstall
 source commands/list
 source commands/update
+source commands/help
 
-#
-# Do something depending on the passed arguments.
-#
 if [ $# -eq 0 ]
     then
-        help
+        _dots_command_help
 
         exit 1
     else

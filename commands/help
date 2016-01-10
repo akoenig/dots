@@ -1,0 +1,32 @@
+#
+# dots
+#
+# Copyright(c) 2016 André König <andre.koenig@posteo.de>
+# MIT Licensed
+#
+#
+
+#
+# @author André König <andre.koenig@posteo.de>
+#
+
+_dots_command_help() {
+	echo "
+  dots - Your dotfiles manager
+
+  Usage: dots [COMMAND] [OPTION]
+
+  Available commands:
+
+  install <repository>  Installs the given dots
+  update <dots>         Updates the given dots repository
+  uninstall <dots>      Uninstalls the given dots repository
+  help                  Prints this help
+
+  --
+
+  © 2016, MIT licensed - André König <andre.koenig@posteo.de>
+
+  https://github.com/akoenig/dots
+"
+}

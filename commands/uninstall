@@ -10,8 +10,8 @@
 # @author André König <andre.koenig@posteo.de>
 #
 
-source "$DOTS_BIN_DIR/lib/output"
-source "$DOTS_BIN_DIR/lib/profile"
+source "$DOTS_HOME/lib/output"
+source "$DOTS_HOME/lib/profile"
 
 _dots_command_uninstall() {
 	local name=$1
